@@ -2,8 +2,10 @@ local server = require "http.server"
 local headers = require "http.headers"
 
 local log = require "lib.rxi-log.log"
+local url = require "lib.neturl.url"
 local routes = require "routes.api"
 local config = require "utils.config"
+local errors = require "utils.errors"
 
 local app = server.listen {
     host = config["server"].host,
@@ -13,8 +15,10 @@ local app = server.listen {
         local reqHeaders = st:get_headers()
         local reqMethod = reqHeaders:get(":method")
 
-        local path = reqHeaders:get(":path")
+        local headerUrl = reqHeaders:get(":path")
+        local path = url.parse(headerUrl).path
         local callback = path:sub(2)
+        local queries = url.parseQuery(tostring(url.parse(headerUrl).query))
         local header = headers.new()
 
         header:append("content-type", "application/json")
@@ -25,13 +29,13 @@ local app = server.listen {
             header:append(":status", "200")
 
             st:write_headers(header, reqMethod == "HEAD")
-            st:write_chunk(routes[callback](), true)
+            st:write_chunk(routes[callback](queries), true)
         else
             log.warn("[404] requested "..path.." using "..reqMethod)
             header:append(":status", "404")
 
             st:write_headers(header, reqMethod == "HEAD")
-            st:write_chunk("{\"status\": \"404\"}", true)
+            st:write_chunk(errors.e404, true)
         end
     end
 }

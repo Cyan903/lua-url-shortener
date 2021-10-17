@@ -17,7 +17,7 @@ local app = server.listen {
         local callback = path:sub(2)
         local header = headers.new()
 
-        header:append("content-type", "text/plain")
+        header:append("content-type", "application/json")
 
         -- handle routes from router object
         if routes[callback] and reqMethod == "GET" then
@@ -31,7 +31,7 @@ local app = server.listen {
             header:append(":status", "404")
 
             st:write_headers(header, reqMethod == "HEAD")
-            st:write_chunk("404 not found!", true)
+            st:write_chunk("{\"error\": \"404\"}", true)
         end
     end
 }

@@ -23,7 +23,7 @@ sql.fetchAll = function(query)
     end
 
     cur:close()
-    return string.format("{\"data\": [%s]}", result:sub(1, -2))
+    return string.format("{\"status\": \"200\", \"data\": [%s]}", result:sub(1, -2))
 end
 
 return sql

@@ -3,3 +3,4 @@
 
 luarocks install http
 luarocks install luasql-mysql MYSQL_INCDIR=/usr/include/mysql
+luarocks install lua-cjson

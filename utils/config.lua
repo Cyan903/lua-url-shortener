@@ -9,5 +9,4 @@ local function read(path)
     return content
 end
 
-local content = read("config.json");
-return JSON:decode(content)
+return JSON:decode(read("config.json"))

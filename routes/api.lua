@@ -1,7 +1,7 @@
 local sql = require "utils.sql"
 
 return {
-    all = function()
+    ["all/aa"] = function()
         local urls = sql.fetchAll("SELECT * FROM urls;")
         
         return urls

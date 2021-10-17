@@ -31,7 +31,7 @@ local app = server.listen {
             header:append(":status", "404")
 
             st:write_headers(header, reqMethod == "HEAD")
-            st:write_chunk("{\"error\": \"404\"}", true)
+            st:write_chunk("{\"status\": \"404\"}", true)
         end
     end
 }

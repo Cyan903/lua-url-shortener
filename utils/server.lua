@@ -65,7 +65,6 @@ local app = server.listen {
     end
 }
 
--- log the url
 log.info(string.format("API Live on: http://%s:%s", 
     config["server"].host, config["server"].port
 ))

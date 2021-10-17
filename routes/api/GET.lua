@@ -1,13 +1,14 @@
 local sql = require "utils.sql"
 local errors = require "utils.errors"
+local config = require "utils.config"
 
 return {
     [""] = function()
         -- show # of shortcuts maybe?
-        return [[{
+        return string.format([[{
             "status": 200,
-            "message": "lua-url-shortener"
-        }]]
+            "message": "%s"
+        }]], config["api-name"])
     end,
 
     ["stats"] = function()

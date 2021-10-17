@@ -5,13 +5,14 @@ return {
     ["url/add"] = function(body)
         local url = body.url
 
-        -- found this on some obscure form
+        -- Found this on some obscure form
         -- https://forums.indigorose.com/forum/autoplay-media-studio-8-5/autoplay-media-studio-8-discussion/299325-pattern-matching-for-valid-urls
         if url == nil or not string.match(url, [[https?://(([%w_.~!*:@&+$/?%%#-]-)(%w[-.%w]*%.)(%w+)(:?)(%d*)(/?)([%w_.~!*:@&+$/?%%#=-]*))]]) then
             return errors.e400
         end
 
         -- TODO: Sanitize
+        -- Does URL already exist? If so, return it.
         local url_exists = sql.fetch(string.format("SELECT short FROM urls WHERE url = '%s'", url))
         
         if url_exists then

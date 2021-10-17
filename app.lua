@@ -1,7 +1,7 @@
 local log = require "lib.rxi-log.log"
 local config = require "utils.config"
 
-log.debug("=== lua-url-shortener ===")
+log.debug(string.format("=== %s (v%s) ===", config["api-name"], config.version))
 log.debug("Host: "..config["server"].host)
 log.debug("Port: "..config["server"].port)
 log.debug("SQL DB: "..config["sql"].db)

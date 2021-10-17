@@ -8,6 +8,14 @@ local con = assert(env:connect(
     config.sql.db, config.sql.user, config.sql.password
 ))
 
+sql.fetch = function(query)
+    local cur = assert(con:execute(query))
+    local data = cur:fetch({}, "a")
+
+    cur:close()
+    return data 
+end
+
 sql.fetchOne = function(query)
     local cur = assert(con:execute(query))
     local result = JSON:encode(cur:fetch({}, "a"))

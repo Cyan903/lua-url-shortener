@@ -28,7 +28,6 @@ local round = function(x, increment)
 end
 
 local _tostring = tostring
-
 local tostring = function(...)
     local t = {}
     for i = 1, select('#', ...) do
@@ -36,13 +35,13 @@ local tostring = function(...)
         if type(x) == "number" then x = round(x, .01) end
         t[#t + 1] = _tostring(x)
     end
+
     return table.concat(t, " ")
 end
 
 for i, x in ipairs(modes) do
     local nameupper = x.name:upper()
     log[x.name] = function(...)
-
         -- Return early if we're below the log level
         if i < levels[log.level] then return end
         local msg = tostring(...)
@@ -66,7 +65,6 @@ for i, x in ipairs(modes) do
             fp:write(str)
             fp:close()
         end
-
     end
 end
 

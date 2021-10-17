@@ -3,12 +3,11 @@ local headers = require "http.headers"
 
 local log = require "lib.rxi-log.log"
 local routes = require "routes.api"
-
-
+local config = require "utils.config"
 
 local app = server.listen {
-    host = "localhost",
-    port = 3000,
+    host = config["server"].host,
+    port = config["server"].port,
     
     onstream = function(sv, st)
         local reqHeaders = st:get_headers()

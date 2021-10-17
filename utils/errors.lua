@@ -9,5 +9,6 @@ local errors = {
 
 errors.e404 = errors.gen(404, "Not found!")
 errors.e400 = errors.gen(400, "Invalid request!")
+errors.e500 = errors.gen(500, "Internal server error!")
 
 return errors

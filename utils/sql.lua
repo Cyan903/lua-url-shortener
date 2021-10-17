@@ -16,6 +16,10 @@ sql.fetch = function(query)
     return data 
 end
 
+sql.exec = function(query)
+    assert(con:execute(query))
+end
+
 sql.fetchOne = function(query)
     local cur = assert(con:execute(query))
     local result = JSON:encode(cur:fetch({}, "a"))

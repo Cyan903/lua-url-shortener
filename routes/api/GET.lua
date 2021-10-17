@@ -24,7 +24,7 @@ return {
         end
 
         return sql.fetchAll(string.format([[
-            SELECT * FROM urls LIMIT %s, %s
+            SELECT * FROM urls LIMIT %s, %s;
         ]], page*length, length))
     end,
 
@@ -41,7 +41,7 @@ return {
                 urls_info.date_added, urls_info.clicks
             FROM urls 
             INNER JOIN urls_info ON urls.id = urls_info.id
-            WHERE urls.id = %s
+            WHERE urls.id = %s;
         ]], id))
     end,
 

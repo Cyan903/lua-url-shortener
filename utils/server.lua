@@ -59,9 +59,12 @@ local app = server.listen {
         end
     end,
 
-    onerror = function(err)
-        log.error("An error has occurred")
-        log.error(err)
+    onerror = function(server, context, op, err, errno)
+        local msg = op .. " on " .. tostring(context) .. " failed"
+		if err then
+			msg = msg .. ": " .. tostring(err)
+		end
+		assert(io.stderr:write(msg, "\n"))
     end
 }
 

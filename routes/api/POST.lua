@@ -51,8 +51,8 @@ return {
         until(not randShortExists)
         
         -- Get latest id (I turned off auto increment)
-        local idUrl = tonumber(sql.fetch("SELECT COUNT(id) as count FROM urls;").count) + 1
-        local idInfo = tonumber(sql.fetch("SELECT COUNT(id) as count FROM urls_info;").count) + 1
+        local idUrl = tonumber(sql.fetch("SELECT COUNT(id) AS count FROM urls;").count) + 1
+        local idInfo = tonumber(sql.fetch("SELECT COUNT(id) AS count FROM urls_info;").count) + 1
         local currentDate = 0
 
         if idUrl ~= idInfo then

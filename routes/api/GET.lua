@@ -4,15 +4,31 @@ local config = require "utils.config"
 
 return {
     [""] = function()
-        -- show # of shortcuts maybe?
         return string.format([[{
             "status": 200,
-            "message": "%s"
-        }]], config["api-name"])
+            "message": "%s API currently serving %s shortcuts!"
+        }]],
+            config["api-name"], 
+            tonumber(sql.fetch("SELECT COUNT(*) AS total FROM urls;").total)
+        )
     end,
 
     ["stats"] = function()
-        -- db stats
+        local totalUrls = tonumber(sql.fetch("SELECT COUNT(*) AS total FROM urls;").total)
+        local totalClicks = tonumber(sql.fetch("SELECT SUM(clicks) AS total FROM urls_info;").total)
+    
+        return string.format([[{
+            "message": 200,
+            "stats": {
+                "total_clicks": %s,
+                "total_shortcuts": %s
+            }
+        }]], totalClicks, totalUrls)
+    end,
+
+    -- /v/ - Visit a url
+    ["v"] = function()
+
     end,
 
     ["url/all"] = function(params)
@@ -43,9 +59,5 @@ return {
             INNER JOIN urls_info ON urls.id = urls_info.id
             WHERE urls.id = %s;
         ]], id))
-    end,
-
-    ["url/for"] = function()
-
     end
 }

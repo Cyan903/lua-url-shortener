@@ -23,7 +23,7 @@ end
 return {
     ["url/add"] = function(body)
         -- TODO: Sanitize
-        local url = body.url
+        local url = sql.clean(body.url)
 
         -- Found this on some obscure form
         -- https://forums.indigorose.com/forum/autoplay-media-studio-8-5/autoplay-media-studio-8-discussion/299325-pattern-matching-for-valid-urls

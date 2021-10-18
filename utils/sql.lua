@@ -8,6 +8,20 @@ local con = assert(env:connect(
     config.sql.db, config.sql.user, config.sql.password
 ))
 
+sql.clean = function(query)
+    local sanitized = query
+    local replaces = {
+        -- I really need to learn regex...
+        "\"", "'", "\\", "`"
+    }
+
+    for k, v in pairs(replaces) do
+        sanitized = string.gsub(sanitized, v, "")
+    end
+
+    return sanitized
+end
+
 sql.fetch = function(query)
     local cur = assert(con:execute(query))
     local data = cur:fetch({}, "a")

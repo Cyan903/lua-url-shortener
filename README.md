@@ -1,5 +1,7 @@
 # lua-url-shortener
 
+![total lines](https://img.shields.io/tokei/lines/github/CyanPiano/lua-url-shortener) ![last commit](https://img.shields.io/github/last-commit/CyanPiano/lua-url-shortener) ![repo size](https://img.shields.io/github/repo-size/CyanPiano/lua-url-shortener)
+
 URL shortening API written in lua. Similar to how [bit.ly](https://bitly.com/) works. This isn't meant to be a serious project and I made it mostly for getting better at the language. This api won't scale at all and I probably spent more time writing helper functions than actually writing the api.
 
 ## Installation

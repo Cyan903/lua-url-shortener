@@ -23,7 +23,6 @@ local app = server.listen {
     onstream = function(sv, st)
         local reqHeaders = st:get_headers()
         local reqMethod = reqHeaders:get(":method")
-
         local headerUrl = reqHeaders:get(":path")
         local path = url.parse(headerUrl).path
         local paths = getPaths(tostring(path))
@@ -87,12 +86,8 @@ local app = server.listen {
         end
     end,
 
-    onerror = function(server, context, op, err, errno)
-        local msg = op .. " on " .. tostring(context) .. " failed"
-		if err then
-			msg = msg .. ": " .. tostring(err)
-		end
-		assert(io.stderr:write(msg, "\n"))
+    onerror = function(_, _2, _3, err)
+        log.fatal("[onerror] "..err)
     end
 }
 

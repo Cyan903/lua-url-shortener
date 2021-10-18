@@ -22,7 +22,6 @@ end
 
 return {
     ["url/add"] = function(body)
-        -- TODO: Sanitize
         local url = sql.clean(body.url)
 
         -- Found this on some obscure form

@@ -1,0 +1,16 @@
+{
+    "api-name": "lua-url-shortener",
+    "version": 1.0,
+    "gen-length": 6,
+
+    "sql": {
+        "db": "lua_url_shortener",
+        "user": "username",
+        "password": "super secret password"
+    },
+
+    "server": {
+       "host": "localhost",
+       "port": 3000
+    }
+}

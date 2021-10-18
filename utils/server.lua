@@ -7,6 +7,15 @@ local routes = require "routes.api"
 local config = require "utils.config"
 local errors = require "utils.errors"
 
+local function getPaths(url)
+    local arr = {}
+    for str in string.gmatch(url, "([^/]+)") do
+        table.insert(arr, str)
+    end
+    
+    return arr
+end
+
 local app = server.listen {
     host = config["server"].host,
     port = config["server"].port,
@@ -17,15 +26,34 @@ local app = server.listen {
 
         local headerUrl = reqHeaders:get(":path")
         local path = url.parse(headerUrl).path
+        local paths = getPaths(tostring(path))
         local callback = path:sub(2)
         local queries = url.parseQuery(tostring(url.parse(headerUrl).query))
         local header = headers.new()
 
         header:append("content-type", "application/json")
 
-        -- GET api
         if reqMethod == "GET" then
-            if routes["GET"][callback] then
+            -- Redirect
+            if paths[1] == "v" and #paths == 2 then
+                local redirectTo = routes["GET"]["v"](paths[2])
+
+                log.info("[303] user wants to redirect")
+
+                if redirectTo then
+                    header:append(":status", "303")
+                    header:append("location", redirectTo)
+                    st:write_headers(header, reqMethod == "HEAD")
+                else
+                    log.warn(string.format("[404] redirect %s does not exist!", paths[2]))
+
+                    header:append(":status", "404")
+                    st:write_headers(header, reqMethod == "HEAD")
+                    st:write_chunk(errors.e404, true)
+                end
+
+            -- GET api
+            elseif routes["GET"][callback] then
                 log.info("[200] requested "..path.." using GET")
                 header:append(":status", "200")
 

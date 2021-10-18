@@ -27,8 +27,15 @@ return {
     end,
 
     -- /v/ - Visit a url
-    ["v"] = function()
+    ["v"] = function(shortcut)
+        local short = sql.clean(shortcut)
+        local full = sql.fetch(string.format("SELECT id, url FROM urls WHERE short = '%s';", short));
 
+        -- Doesn't exist and update clicks
+        if not full then return false end
+        sql.exec(string.format("UPDATE urls_info SET clicks = clicks + 1 WHERE id = %s;", full.id))
+
+        return full.url
     end,
 
     ["url/all"] = function(params)
@@ -45,9 +52,9 @@ return {
     end,
 
     ["url/info"] = function(params)
-        local id = tonumber(params.id) or -1
+        local short = sql.clean(params.short or "")
 
-        if id < 0 then
+        if short == "" then
             return errors.e400
         end
 
@@ -57,7 +64,7 @@ return {
                 urls_info.date_added, urls_info.clicks
             FROM urls 
             INNER JOIN urls_info ON urls.id = urls_info.id
-            WHERE urls.id = %s;
-        ]], id))
+            WHERE urls.short = "%s";
+        ]], short))
     end
 }
